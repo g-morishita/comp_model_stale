@@ -47,6 +47,7 @@ from .vicQ_ap_dualw_nostay_within_subject import VicQAPDualWNoStayWithinSubjectS
 from .vs_within_subject import VSWithinSubjectStanAdapter
 from .qrl_within_subject import QRLWithinSubjectStanAdapter
 from .qrl_stay_within_subject import QRLStayWithinSubjectStanAdapter
+from .vicarious_ap_db_stay_within_subject import VicariousAPDBStayWithinSubjectStanAdapter
 from .base import StanAdapter
 from .qrl import QRLStanAdapter
 from .qrl_stay import QRLStayStanAdapter
@@ -104,6 +105,8 @@ def resolve_stan_adapter(model: ComputationalModel) -> StanAdapter:
             return APRLNoStayWithinSubjectStanAdapter(model)
         if isinstance(base, Vicarious_DB_Stay):
             return VicariousDBStayWithinSubjectStanAdapter(model)
+        if isinstance(base, Vicarious_AP_DB_STAY):
+            return VicariousAPDBStayWithinSubjectStanAdapter(model)
         if isinstance(base, VicQ_AP_DualW_Stay):
             return VicQAPDualWStayWithinSubjectStanAdapter(model)
         if isinstance(base, VicQ_AP_DualW_NoStay):

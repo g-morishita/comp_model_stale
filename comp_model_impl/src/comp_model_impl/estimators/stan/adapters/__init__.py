@@ -21,6 +21,7 @@ from .ap_rl_stay import APRLStayStanAdapter
 from .ap_rl_nostay import APRLNoStayStanAdapter
 from .vicarious_ap_vs import VicariousAPVSStanAdapter
 from .vicarious_ap_db_stay import VicariousAPDBStayStanAdapter
+from .vicarious_ap_db_stay_within_subject import VicariousAPDBStayWithinSubjectStanAdapter
 from .vicarious_dir_db_stay import VicariousDirDBStayStanAdapter
 from .vicarious_db_stay import VicariousDBStayStanAdapter
 from .vicarious_db_stay_within_subject import VicariousDBStayWithinSubjectStanAdapter
@@ -55,6 +56,7 @@ __all__ = [
     "APRLNoStayStanAdapter",
     "VicariousAPVSStanAdapter",
     "VicariousAPDBStayStanAdapter",
+    "VicariousAPDBStayWithinSubjectStanAdapter",
     "VicariousDirDBStayStanAdapter",
     "VicariousDBStayStanAdapter",
     "VicariousDBStayWithinSubjectStanAdapter",

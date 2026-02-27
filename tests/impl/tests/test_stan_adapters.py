@@ -18,6 +18,7 @@ from comp_model_impl.estimators.stan.adapters import (
     VicQAPIndepDualWStanAdapter,
     VicariousAPVSStanAdapter,
     VicariousAPDBStayStanAdapter,
+    VicariousAPDBStayWithinSubjectStanAdapter,
     VicariousDBStayStanAdapter,
     VicariousDBStayWithinSubjectStanAdapter,
     VicariousDirDBStayStanAdapter,
@@ -476,6 +477,37 @@ def test_vicarious_db_stay_within_subject_adapter_uses_base_model_constants():
     assert "beta_upper" not in data
     assert data["kappa_abs_max"] == pytest.approx(1.1)
     assert data["demo_bias_abs_max"] == pytest.approx(2.2)
+
+
+def test_vicarious_ap_db_stay_within_subject_adapter_uses_base_model_constants():
+    """Within-subject Vicarious-AP-DB-Stay adapter uses base-model bounds."""
+    wrapped = wrap_model_with_shared_delta_conditions(
+        model=Vicarious_AP_DB_STAY(kappa_abs_max=1.4, demo_bias_abs_max=2.6),
+        conditions=["A", "B"],
+        baseline_condition="A",
+    )
+    adapter = resolve_stan_adapter(wrapped)
+    assert isinstance(adapter, VicariousAPDBStayWithinSubjectStanAdapter)
+    assert adapter.program("indiv").key == "vicarious_ap_db_stay_within_subject"
+    assert adapter.required_priors("indiv") == [
+        "alpha_o__shared",
+        "alpha_o__delta",
+        "alpha_a__shared",
+        "alpha_a__delta",
+        "demo_bias_rel__shared",
+        "demo_bias_rel__delta",
+        "beta__shared",
+        "beta__delta",
+        "kappa__shared",
+        "kappa__delta",
+    ]
+
+    data = {}
+    adapter.augment_subject_data(data)
+    assert data["beta_lower"] == pytest.approx(1e-6)
+    assert "beta_upper" not in data
+    assert data["kappa_abs_max"] == pytest.approx(1.4)
+    assert data["demo_bias_rel_abs_max"] == pytest.approx(2.6)
 
 
 def test_vicq_ap_dualw_stay_within_subject_adapter_uses_base_model_constants():
